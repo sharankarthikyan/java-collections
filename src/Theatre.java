@@ -4,7 +4,7 @@ import java.util.*;
 public class Theatre {
     // Attributes of Theatre
     private final String theatreName;
-    private List<Seat> seats = new ArrayList<>();
+    public List<Seat> seats = new ArrayList<>();
 
     // Initialization
     public Theatre(String theatreName, int numRows, int seatsPerRow) {
@@ -25,25 +25,65 @@ public class Theatre {
     }
 
     public void getSeats() {
-        for(Seat seat: seats) {
+        for (Seat seat : seats) {
             System.out.println(seat.getSeatNumber());
         }
     }
 
     // Behaviours of Theatre
     public boolean reserveSeat(String seatNumber) {
-        Seat requestedSeat = null;
-        for (Seat seat : seats) {
-            if (seat.getSeatNumber().equals(seatNumber)) {
-                requestedSeat = seat;
-                break;
-            }
-        }
-
-        if (requestedSeat == null) {
+        Seat requestedSeat = new Seat(seatNumber);
+        int foundSeat = Collections.binarySearch(seats, requestedSeat);
+        if (foundSeat >= 0) {
+            return seats.get(foundSeat).reserve();
+        } else {
             System.out.println("There is no seat " + seatNumber);
             return false;
         }
-        return requestedSeat.reserve();
     }
+
+
+    public class Seat implements Comparable<Seat> {
+        // Attributes of Seat
+        private final String seatNumber;
+        private boolean reserved = false;
+
+        // Initialization
+        public Seat(String seatNumber) {
+            this.seatNumber = seatNumber;
+        }
+
+        // Getters
+        public String getSeatNumber() {
+            return seatNumber;
+        }
+
+        // Behaviours of Seat
+        public boolean reserve() {
+            if (!this.reserved) {
+                this.reserved = true;
+                System.out.println("Seat " + seatNumber + " reserved.");
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public boolean cancel() {
+            if (this.reserved) {
+                this.reserved = false;
+                System.out.println("Reservation of seat " + seatNumber + " cancelled.");
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Overriding interface methods
+        @Override
+        public int compareTo(Seat seat) {
+            return this.seatNumber.compareToIgnoreCase(seat.getSeatNumber());
+        }
+    }
+
 }
