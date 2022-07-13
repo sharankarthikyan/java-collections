@@ -6,46 +6,41 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        Theatre theatre = new Theatre("PVR Grand Galada", 5, 10);
-        List<Theatre.Seat> seatsCopy = new ArrayList<>(theatre.seats);
-        printList(seatsCopy);
+        Theatre theatre = new Theatre("PVR Grand Galada", 10, 10);
 
-        seatsCopy.get(1).reserve();
-        if (theatre.reserveSeat("A02")) {
-            System.out.println("Please pat for A02");
+        if (theatre.reserveSeat("D05")) {
+            System.out.println("Please pay for D05");
         } else {
             System.out.println("Seat already reserved.");
         }
 
-        // Collections.reverse
-        System.out.println("================ Collection Reverse ================");
-        Collections.reverse(seatsCopy);
-        System.out.println("Printing seat copy.");
-        printList(seatsCopy);
-        System.out.println("Printing theatre.seat");
-        printList(theatre.seats);
+        if (theatre.reserveSeat("D05")) {
+            System.out.println("Please pay for D05");
+        } else {
+            System.out.println("Seat already reserved.");
+        }
 
-        // Collections.shuffle
-        System.out.println("================ Collection Shuffle ================");
-        Collections.shuffle(seatsCopy);
-        System.out.println("Printing seat copy.");
-        printList(seatsCopy);
-        System.out.println("Printing theatre.seat");
-        printList(theatre.seats);
+        if (theatre.reserveSeat("A08")) {
+            System.out.println("Please pay for A08");
+        } else {
+            System.out.println("Seat already reserved.");
+        }
 
-        Theatre.Seat minSeat = Collections.min(seatsCopy);
-        Theatre.Seat maxSeat = Collections.max(seatsCopy);
-        System.out.println("Min seat number is " + minSeat.getSeatNumber());
-        System.out.println("Max seat number is " + maxSeat.getSeatNumber());
+        List<Theatre.Seat> seats = new ArrayList<>(theatre.getSeats());
+        Collections.reverse(seats);
+        printList(seats);
 
-        sortList(seatsCopy);
-        System.out.println("Printing sorted seatsCopy");
-        printList(seatsCopy);
+        List<Theatre.Seat> priceSeats = new ArrayList<>(theatre.getSeats());
+        priceSeats.add(theatre.new Seat("B00", 150.00));
+        priceSeats.add(theatre.new Seat("C07", 120.00));
+        Collections.sort(priceSeats, Theatre.PRICE_ORDER);
+        printList(priceSeats);
+
     }
 
     public static void printList(List<Theatre.Seat> seats) {
         for (Theatre.Seat seat : seats) {
-            System.out.print(" " + seat.getSeatNumber());
+            System.out.print(" " + seat.getSeatNumber() + ": $" + seat.getPrice() + " |");
         }
         System.out.println();
         System.out.println("======================================================================================");
