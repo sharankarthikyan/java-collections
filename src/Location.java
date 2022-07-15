@@ -27,11 +27,11 @@ public class Location {
 
     // Getters
     public int getLocationID() {
-        return new Integer(locationID); // we are creating a new object to make exits immutable.
+        return locationID; // This won't return a value by reference, hence we don't need to create a new instance for this object.
     }
 
     public String getDescription() {
-        return new String(description); // we are creating a new object to make exits immutable.
+        return description; // This won't return a value by reference, hence we don't need to create a new instance for this object.
     }
 
     public Map<String, Integer> getExits() {
